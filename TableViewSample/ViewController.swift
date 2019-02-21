@@ -16,23 +16,26 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // add to array
         contactList = loadData()
  
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        self.tableView.reloadData()
+        
+    }
     func loadData() -> [Contact] {
         
         var contacts: [Contact] = []
 
-        let contact1 = Contact("Joe","123456789")
-        let contact2 = Contact("Lore","123456789")
-        let contact3 = Contact("Mari","123456789")
-        let contact4 = Contact("Matt","123456789")
-        let contact5 = Contact("Babi","123456789")
-        let contact6 = Contact("Rob","123456789")
-        let contact7 = Contact("Lucho","123456789")
-        
+        let contact1 = Contact("Joe","my@email.com","123456789",0)
+        let contact2 = Contact("MariPau","my@email.com","123456789",0)
+        let contact3 = Contact("Lore","my@email.com","123456789",0)
+        let contact4 = Contact("Matt","my@email.com","123456789",0)
+        let contact5 = Contact("Robert","my@email.com","123456789",0)
+        let contact6 = Contact("Virginia","my@email.com","123456789",0)
+        let contact7 = Contact("Lucho","my@email.com","123456789",0)
+
         contacts.append(contact1)
         contacts.append(contact2)
         contacts.append(contact3)
@@ -41,9 +44,25 @@ class ViewController: UIViewController {
         contacts.append(contact6)
         contacts.append(contact7)
         
+        
+        
         return contacts
     }
 
+    @IBAction func processPageReturns(unwindSegue: UIStoryboardSegue ) {
+        
+        if unwindSegue.identifier == "ReturnFromAddContact" {
+            
+            //var newContact = Contact()
+            print("unwinding")
+        }
+        
+    }
+
+    @IBAction func clickDeleteContact(_ sender: UIButton) {
+        
+    }
+    
 
 }
 
@@ -59,11 +78,34 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "contacCell") as! ContactCell
         
-        cell.setData(contact: contact)
+        tableView.cellLayoutMarginsFollowReadableWidth = true
         
+
+//        let nameLbl = cell.viewWithTag(1001) as! UILabel
+//        let emailLbl = cell.viewWithTag(1002) as! UILabel
+//        let phoneLbl = cell.viewWithTag(1003) as! UILabel
+//        let phoneTypeLbl = cell.viewWithTag(1004) as! UILabel
+//
+//        nameLbl.text = contact.name
+//        emailLbl.text = contact.email
+//        phoneLbl.text = contact.phone
+//        phoneTypeLbl.text = String(contact.phoneType!)
+
+        cell.setData(contact: contact)
         return cell
     }
     
-    
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let contact = contactList[indexPath.row]
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "contacCell") as! ContactCell
+
+        print("Selected row \(contact)")
+        
+        contactList.remove(at: indexPath.row)
+        tableView.reloadData()
+        
+        
+    }
 }

@@ -12,14 +12,21 @@ class Contact {
     
     var name: String?
     var phone: String?
+    var email: String?
+    var phoneType: Int?
+    var isDeleted = false
     
     init() {
         self.name = ""
         self.phone = ""
+        self.email = ""
+        self.phoneType = 0
     }
     
-    init(_ name: String, _ phone: String) {
+    init(_ name: String, _ email: String, _ phone: String, _ phoneType: Int ) {
         self.name = name
-        self.phone = phone 
+        self.email = email
+        self.phone = phone
+        self.phoneType = phoneType
     }
 }
